@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="ISO-8859-1" />
+    <title>E-Trains</title>
+    <link rel="stylesheet" href="UserHome_Css.css" />
+  </head>
+  <body>
+    <header>
+      <h1 class="hd">Welcome to National Railway Booking Spot!!</h1>
+      <div class="home">
+        <p class="menu">
+          <a href="NewRegisteredHome.html">Home</a>
+        </p>
+      </div>
+      <div class="home">
+        <p class="menu">
+          <a href="UserViewTrains.html">View Trains</a>
+        </p>
+      </div>
+      <div class="home">
+        <p class="menu">
+          <a href="TrainBwStn.html">Trains Between Stations</a>
+        </p>
+      </div>
+
+      <div class="home">
+        <p class="menu">
+          <a href="Fare.html">Fare Enquiry</a>
+        </p>
+      </div>
+      <div class="home">
+        <p class="menu">
+          <a href="Availabiilty.html">Seat Availability</a>
+        </p>
+      </div>
+      <div class="home">
+        <p class="menu">
+          <a href="SearchTrains.html">Search By TrainNo</a>
+        </p>
+      </div>
+      <div class="home">
+        <p class="menu">
+          <a href="BookTrain.html">Book your ticket</a>
+        </p>
+      </div>
+      <div class="home">
+        <p class="menu">
+          <a href="Payment.html">Make Payment</a>
+        </p>
+      </div>
+      <div class="home">
+        <p class="menu">
+          <a href="UserRegister.html">Logout</a>
+        </p>
+      </div>
+    </header>
+
+    <div class="main">
+      <p class="menu">Trains Enquiry</p>
+    </div>
+
+    <!-- Remove the form's action attribute -->
+    <form id="searchForm" class="tab red" method="post">
+      TrainNumber: <input type="text" name="trainnumber" /><br />
+      <br />
+      <input type="submit" value=" SEARCH TRAIN " /><br />
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Train No.</th>
+          <th>Train Name</th>
+          <th>Source Station</th>
+          <th>Destination Station</th>
+          <th>Seats Left</th>
+          <th>Fare</th>
+        </tr>
+      </thead>
+      <tbody id="trainData">
+        <!-- Add an id to the tbody -->
+      </tbody>
+    </table>
+
+	<script>
+		const searchForm = document.getElementById('searchForm');
+		const trainDataTbody = document.getElementById('trainData');
+	
+		searchForm.addEventListener('submit', async function (event) {
+		event.preventDefault(); // Prevent the default form submission behavior
+	
+			const trainNumber = document.querySelector('[name="trainnumber"]').value;
+	
+			try {
+				const response = await fetch('/searchtrains', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ trainnumber: trainNumber }),
+				});
+	
+				if (response.ok) {
+					const data = await response.json();
+	
+					// Clear the existing table rows
+					trainDataTbody.innerHTML = '';
+	
+					// Populate the table with the retrieved data
+					data.forEach(row => {
+						const newRow = document.createElement('tr');
+						newRow.innerHTML = `
+							<td>${row.TR_NO}</td>
+							<td>${row.TR_NAME}</td>
+							<td>${row.FROM_STN}</td>
+							<td>${row.TO_STN}</td>
+							<td>${row.SEATS}</td>
+							<td>${row.FARE}</td>
+						`;
+						trainDataTbody.appendChild(newRow);
+					});
+				} else {
+					alert("Invalid Train Number")
+				}
+			} catch (error) {
+				alert("Invalid Train Number")
+			}
+		});
+	</script>
+	
+  </body>
+</html>

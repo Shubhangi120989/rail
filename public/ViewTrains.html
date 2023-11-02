@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Trains</title>
+<link rel="stylesheet" href="UserHome_Css.css">
+</head>
+<body>
+	<header>
+		<h1 class="hd">National Ticket Booking Spot</h1>
+		<h2>Trains Sceduled</h2>
+		<div class="home">
+			<p class="menu">
+				<a href=".\AdminHome.html">Home</a>
+			</p>
+		</div>
+		<div class="home">
+			<p class="menu">
+				<a href="ViewTrains.html">View Trains</a>
+			</p>
+		</div>
+		
+
+		<div class="home">
+			<p class="menu">
+				<a href="Addtrains.html">Add Train</a>
+			</p>
+		</div>
+		<div class="home">
+			<p class="menu">
+				<a href="CancelTrain.html">Cancel Train </a>
+			</p>
+		</div>
+		<div class="home">
+			<p class="menu">
+				<a href="AdminUpdateTrain.html">Update Train Details</a>
+			</p>
+		</div>
+		<div class="home">
+			<p class="menu">
+				<a href="UserRegister.html">Logout</a>
+			</p>
+		</div>
+	</header>
+	<form id="viewAdminTrains" method="post">
+		<input type="submit" value="View the Scheduled Trains ">
+	</form>
+	<table>
+		<thead>
+		  <tr>
+			<th>Train No.</th>
+			<th>Train Name</th>
+			<th>Source Station</th>
+			<th>Destination Station</th>
+			<!-- <th>Seats Left</th>
+			<th>Fare</th> -->
+		  </tr>
+		</thead>
+		<tbody id="trainAllData_Admin">
+		  <!-- Add an id to the tbody -->
+		</tbody>
+	  </table>
+	  <script>
+		const searchForm = document.getElementById('viewAdminTrains');
+		const trainDataTbody = document.getElementById('trainAllData_Admin');
+		
+		searchForm.addEventListener('submit', async function (event){
+			event.preventDefault();
+			try {
+				const response = await fetch('/viewtrains', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					}
+					<!-- body: JSON.stringify({ trainnumber: trainNumber }), -->
+				});
+	
+				if (response.ok) {
+					const data = await response.json();
+	
+					// Clear the existing table rows
+					trainDataTbody.innerHTML = '';
+	
+					// Populate the table with the retrieved data
+					data.forEach(row => {
+						const newRow = document.createElement('tr');
+						newRow.innerHTML = `
+							<td>${row.TR_NO}</td>
+							<td>${row.TR_NAME}</td>
+							<td>${row.FROM_STN}</td>
+							<td>${row.TO_STN}</td>
+							<!-- <td>${row.SEATS}</td>
+							<td>${row.FARE}</td> -->
+						`;
+						trainDataTbody.appendChild(newRow);
+					});
+				} else {
+					alert("Invalid Train Number")
+				}
+			} catch (error) {
+				alert("Invalid Train Number")
+			}
+
+
+		})
+	  </script>
+
+
+</body>
+</html>
