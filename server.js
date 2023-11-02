@@ -11,7 +11,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 
-app.listen(port, () => console.log(`Started on port ${port}`));
 
 // const test = async () =>{
 //     try {
@@ -45,32 +44,6 @@ app.post('/searchtrains', async (req, res) => {
       res.status(500).json({ error: 'An error occurred while searching for trains.' });
     }
   });
-
-  // app.post('/admincancletrain', async (req, res) => {
-  //   const { trainno } = req.body;
-  
-  //   try {
-  //     // Use your Sequelize instance 'db' to perform the cancel train query.
-  //     const result = await db.query(
-  //       'DELETE FROM TRAIN WHERE TR_NO = :trainno',
-  //       {
-  //         replacements: { trainno },
-  //         type: Sequelize.QueryTypes.DELETE,
-  //       }
-  //     );
-  
-  //     // Check if any rows were affected (deleted).
-  //     if (result[1] > 0) {
-  //       res.send('Train canceled successfully.');
-  //     } else {
-  //       res.send('Train not found or could not be canceled.');
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     // Handle errors and send an appropriate response to the client.
-  //     res.status(500).send('An error occurred while canceling the train.');
-  //   }
-  // });
 
   app.post('/ViewTrains', async (req, res) => {
     try {
@@ -106,4 +79,41 @@ app.post('/searchtrains', async (req, res) => {
   });
   
   
+  app.post('/admincancletrain', async (req, res) => {
+    const {trainno} = req.body;
+    try {
+      // Use your Sequelize instance 'db' to query the database for trains between the specified stations.
+      const query = 'DELETE FROM TRAIN WHERE TR_NO = :trainno';
+      const trains = await db.query(query, {
+        replacements: { trainno },
+        type: Sequelize.QueryTypes.DELETE,
+      });
+
+      res.send(`Train with train number ${trainno} is deleted`);
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred while searching for trains between stations.' });
+    }
+  })
+
+  app.post('/adminaddtrain', async (req, res) => {
+    const {trainno, trainname, fromstation, tostation, available, fare} = req.body;
+    try {
+      // Use your Sequelize instance 'db' to query the database for trains between the specified stations.
+      const query = 'INSERT INTO TRAIN VALUES (:trainno, :trainname, :fromstation, :tostation, :available, :fare)';
+      const trains = await db.query(query, {
+        replacements: { trainno, trainname, fromstation, tostation, available, fare },
+        type: Sequelize.QueryTypes.INSERT,
+      });
+
+      res.send(`Train with train number ${trainno} is added`);
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred while searching for trains between stations.' });
+    }
+  })
+
+app.listen(port, () => console.log(`Started on port ${port}`));
   
