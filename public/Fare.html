@@ -64,12 +64,74 @@
 	<div class="tab">
 		<p class="menu">Fare Enquiry for Trains Between Stations</p>
 	</div>
-	<form action="fareenq" class="tab red" method="post">
+	<form id="fareform" class="tab red" method="post">
 		From Station: <input type="text" name="fromstation"><br />
 		<br /> To Station: <input type="text" name="tostation"><br />
 		<br /> <input type="submit" value=" Get Fare "><br />
 	</form>
 	<br />
+	<table >
+		<thead id="theadfare">
+		 
+		</thead>
+		<tbody id="faredetails">
+		  <!-- Add an id to the tbody -->
+		</tbody>
+	  </table>
+	<script>
+		const faredetails = document.getElementById('fairdetails');
+		document.getElementById("fareform").addEventListener('submit', async function (event) {
+			event.preventDefault(); // Prevent the form from submitting as a traditional HTML form.
+		
+			const fromstation = document.querySelector('[name="fromstation"]').value;
+			const tostation = document.querySelector('[name="tostation"]').value;
+			const theadfare=document.getElementById("theadfare")
+			try {
+				const response = await fetch('/fareEnquiry', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ tostation:tostation,fromstation:fromstation }),
+				});
+	
+				if (response.ok) {
+					const data = await response.json();
+	
+					// Clear the existing table rows
+					faredetails.innerHTML = '';
+					theadfare.innerHTML=` <tr>
+						<th>Train No.</th>
+						<th>Train Name</th>
+						
+						<th>Fare Price</th>
+						
+					  </tr>`
+	
+					// Populate the table with the retrieved data
+					data.forEach(row => {
+						const newRow = document.createElement('tr');
+						newRow.innerHTML = `
+							<td>${row.TR_NO}</td>
+							<td>${row.TR_NAME}</td>
+							<!-- <td>${row.FROM_STN}</td>
+							<td>${row.TO_STN}</td> -->
+							<!-- <td>${row.SEATS}</td> -->
+							<td>${row.FARE}</td>
+						`;
+						faredetails.appendChild(newRow);
+					});
+				} else {
+					alert("No train between these stations found!!")
+				}
+			} catch (error) {
+				alert("No train between these stations found!!")
+			}
+		
+			
+		  });
+	  </script>
+
 
 </body>
 </html>

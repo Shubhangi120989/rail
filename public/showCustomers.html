@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>E-Trains</title>
+<link rel="stylesheet" href="UserHome_Css.css">
+</head>
+<body>
+	<header>
+		<h1 class="hd">National Ticket Booking Spot</h1>
+		<div class="home">
+			<p class="menu">
+				<a href=".\AdminHome.html">Home</a>
+			</p>
+		</div>
+		<div class="home">
+			<p class="menu">
+				<a href="ViewTrains.html">View Trains</a>
+			</p>
+		</div>
+		
+
+		<div class="home">
+			<p class="menu">
+				<a href="Addtrains.html">Add Train</a>
+			</p>
+		</div>
+		<div class="home">
+			<p class="menu">
+				<a href="CancelTrain.html">Cancel Train </a>
+			</p>
+		</div>
+		<div class="home">
+			<p class="menu">
+				<a href="showCustomers.html">Show passengers details</a>
+			</p>
+		</div>
+		<div class="home">
+			<p class="menu">
+				<a href="UserRegister.html">Logout</a>
+			</p>
+		</div>
+	</header>
+	
+	<div class='tab'>
+		<p class='menu'> Hey, Admin ! Welcome to our new NITRTC Website
+		</p>
+	</div>
+	
+	<div class="main">
+		<p class="menu">Update Trains</p>
+	</div>
+	<!-- <form action="adminupdatetrain" class="tab red" method="post">
+		<br /> TrainNumber: <input type="text" name="trainnumber"><br />
+		<br /> <input type="submit" value=" SEARCH TRAIN "><br />
+	</form> -->
+	<br />
+	<!-- <h3 >The Details of the Passengers is as follows</h3> -->
+	<form id="showC" method="post">
+		<input type="submit" value="Load the details of the passengers ">
+	</form>
+	<table>
+		<thead>
+		  <tr>
+			<th>Mail Id</th>
+			
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Address</th>
+			<th>Phone No.</th>
+		  </tr>
+		</thead>
+		<tbody id="Customers">
+		  <!-- Add an id to the tbody -->
+		</tbody>
+	  </table>
+	  <script>
+		const searchForm = document.getElementById('showC');
+		const trainDataTbody = document.getElementById('Customers');
+		
+		searchForm.addEventListener('submit', async function (event){
+			event.preventDefault();
+			try {
+				const response = await fetch('/showCustomers', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					}
+					<!-- body: JSON.stringify({ trainnumber: trainNumber }), -->
+				});
+	
+				if (response.ok) {
+					const data = await response.json();
+	
+					// Clear the existing table rows
+					trainDataTbody.innerHTML = '';
+	
+					// Populate the table with the retrieved data
+					data.forEach(row => {
+						const newRow = document.createElement('tr');
+						newRow.innerHTML = `
+							<td>${row.MAILID}</td>
+							<td>${row.FNAME}</td>
+							<td>${row.LNAME}</td>
+							<td>${row.ADDR}</td>
+							<td>${row.PHNO}</td>
+							
+						`;
+						trainDataTbody.appendChild(newRow);
+					});
+				} else {
+					alert("Details can't be loaded")
+				}
+			} catch (error) {
+				alert("Details can't be loaded")
+			}
+
+
+		})
+	  </script>
+
+
+</body>
+</html>

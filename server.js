@@ -117,3 +117,58 @@ app.post('/searchtrains', async (req, res) => {
 
 app.listen(port, () => console.log(`Started on port ${port}`));
   
+app.post('/showCustomers', async (req, res) => {
+  try {
+    // Use your Sequelize instance 'db' to query all train details.
+    const customers = await db.query('SELECT * FROM CUSTOMER', {
+      type: Sequelize.QueryTypes.SELECT,
+    });
+
+    // Send the train details to the client.
+    res.json(customers);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while fetching the customers details' });
+  }
+});
+
+app.post('/Availabiilty', async (req, res) => {
+  const { trainnumber } = req.body;
+console.log(trainnumber);
+  try {
+    // Use your Sequelize instance 'db' to perform the query.
+    const results = await db.query(
+      'SELECT * FROM TRAIN WHERE TR_NO = :trainnumber',
+      {
+        replacements: { trainnumber },
+        type: Sequelize.QueryTypes.SELECT,
+      }
+    );
+
+    // Send the results to the client (frontend).
+    res.json(results);
+  } catch (error) {
+    console.error(error);
+    // Handle errors and send an appropriate response to the client.
+    res.status(500).json({ error: 'An error occurred while searching for trains.' });
+  }
+});
+
+app.post('/fareEnquiry', async (req, res) => {
+  const { fromstation, tostation } = req.body;
+
+  try {
+    // Use your Sequelize instance 'db' to query the database for trains between the specified stations.
+    const query = 'SELECT * FROM TRAIN WHERE FROM_STN = :fromstation AND TO_STN = :tostation';
+    const details = await db.query(query, {
+      replacements: { fromstation, tostation },
+      type: Sequelize.QueryTypes.SELECT,
+    });
+
+    res.json(details);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while searching for trains between stations.' });
+  }
+});
+
