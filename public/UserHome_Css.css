@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 body{
-    background-image: url(sandy.jpg);
+    background-image: url(https://images.unsplash.com/photo-1442570468985-f63ed5de9086?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHRyYWlufGVufDB8fDB8fHww);
     background-repeat: no-repeat;
     margin-left: 10%;
     margin-right: 10%;
@@ -19,6 +19,7 @@ body{
     font-size:40px;
     font-family:'Bebas Neue' , sans-serif;
     font-weight: bold;
+    
 }
 .main{
     border:1px black solid;
@@ -31,6 +32,7 @@ body{
     margin-bottom: 10px;
     color:#362101;
     width:600px;
+   
 }
 .menu{
     border:1px black solid;
@@ -44,6 +46,7 @@ body{
     margin:auto;
     padding:5px;
     margin-top:6px;
+    
 }
 a:hover{
 color:rgb(45, 24, 2);
@@ -132,4 +135,10 @@ margin-top: 25%;
 .btn:hover{
     background-color: rgb(175, 150, 123);
     color: white;
+}
+.viewtb{
+    text-align: center;
+    background-color: #b58b4b;
+    margin-left: auto;
+    margin-right: auto;
 }

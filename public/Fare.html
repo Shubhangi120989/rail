@@ -64,13 +64,13 @@
 	<div class="tab">
 		<p class="menu">Fare Enquiry for Trains Between Stations</p>
 	</div>
-	<form id="fareform" class="tab red" method="post">
+	<form id="fareform" action="/fareEnquiry" class="tab red" method="post">
 		From Station: <input type="text" name="fromstation"><br />
 		<br /> To Station: <input type="text" name="tostation"><br />
 		<br /> <input type="submit" value=" Get Fare "><br />
 	</form>
 	<br />
-	<table >
+	<table class="viewtb" >
 		<thead id="theadfare">
 		 
 		</thead>
@@ -79,7 +79,7 @@
 		</tbody>
 	  </table>
 	<script>
-		const faredetails = document.getElementById('fairdetails');
+		const faredetails = document.getElementById('faredetails');
 		document.getElementById("fareform").addEventListener('submit', async function (event) {
 			event.preventDefault(); // Prevent the form from submitting as a traditional HTML form.
 		

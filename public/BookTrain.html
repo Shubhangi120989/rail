@@ -74,12 +74,144 @@
 			before Booking !
 		</p>
 	</div>
-	<form action="booktrains" class="tab red" method="post">
-		TrainNumber: <input type="text" name="trainnumber"><br /> <br />
-		No of seats: <input type='text' name='seats'><br /> <br /> <input
-			type="submit" value=" Book Now "><br />
-	</form>
-	<br />
+	<form id="bookform" class="tab red" method="post">
+		TrainNumber: <input type="text" name="trainnumber" id="trainN"><br /> <br />
+		No of seats: <input type='number' name='seats' id="num-seats"><br /> <br /> 
+		<!-- <button type="button" id="calculate-cost">Book Now</button> -->
 
+		<input type="submit" value="Book now" id="submit-btn"><br />
+	</form>
+	<form id="cost-container" style="display:none" method="post" action="/addbooking">
+        <p id="seat-cost" style="display:none">Total amount to be paid: Rs.<span id="sp"></span> </p>
+		<p>Confirm the details!</p>
+		<br>
+		TrainNumber: <input type="text" name="trainnumber" id="trainnumber"><br>
+		Source Station: <input type="text" name="fromstation" id="fromstation"><br>
+		Destination:<input type="text" name="tostation" id="tostation"><br>
+		Seats: <input type="number" name="seats" id="seats"><br>
+		Total Cost: <input type="number" name="totalcost" id="totalcost"><br>
+		
+		<p>Add Mail ID and the transaction number</p>
+		Mail Id: <input type="text" name="mailid" id="mailid"><br>
+		Transid ID: <input type="text" name="transid" id="transid">
+		
+        <input type="submit" id="pay-button" value="Confirm booking">
+	<br />
+	</form>
+
+	<!-- <script>
+		const trainNumber = document.getElementById("train-number").value;
+		const numSeats = parseInt(document.getElementById("num-seats").value);
+		
+		document.getElementById("calculate-cost").addEventListener("click", function() {
+		fetch(`/fetch-seat-cost?trainNumber=${trainNumber}`)
+        .then(response => response.json())
+        .then(data => {
+            const seatCost = data.fare;
+
+            // Display the seat cost and show the "Pay" button
+            document.getElementById("seat-cost").textContent = seatCost;
+            document.getElementById("cost-container").style.display = "block";
+        });
+
+		document.getElementById("pay-button").addEventListener("click", function() {
+			const transid=document.getElementById("transid");
+			fetch(`/add-to-payment-history?trainNumber=${trainNumber}&numSeats=${numSeats}&transid=${transid}`)
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response, e.g., show a success message
+            alert("Payment successful!");
+        });
+});
+});
+	
+		
+
+		
+	</script> -->
+	<script>
+		
+		const searchForm = document.getElementById('bookform');
+		const seatCost = document.getElementById('seat-cost');
+		
+		const form2=document.getElementById("cost-container");
+		let fetchedSeats;
+		let fetchedTrainNumber;
+		let fetchedstartStation;
+		let fetchedendStation;
+		let fetchedtotalcost;
+		const trainnumber=document.getElementById("trainnumber");
+		const fromstation=document.getElementById("fromstation");
+		const tostation=document.getElementById("tostation");
+		const seatsid=document.getElementById("seats");
+		const total=document.getElementById("totalcost");
+
+	
+		searchForm.addEventListener('submit', async function (event) {
+		event.preventDefault(); // Prevent the default form submission behavior
+	
+			const trainNumber = document.querySelector('[name="trainnumber"]').value;
+			const seats=document.querySelector('[name=seats]').value;
+			
+			
+	
+			try {
+				const response = await fetch('/booktrain', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ trainnumber: trainNumber }),
+				});
+	
+				if (response.ok) {
+					const data = await response.json();
+	
+					// Clear the existing table rows
+					
+					// Populate the table with the retrieved data
+					if(Object.keys(data).length===0){
+						alert("Invalid Train Number");
+					}else{
+						data.forEach(row => {
+							<!-- const newRow = document.createElement('span'); -->
+							fetchedTrainNumber = trainNumber;
+                            fetchedSeats = seats;
+							fetchedstartStation=row.FROM_STN;
+							fetchedendStation=row.TO_STN;
+							fetchedtotalcost=row.FARE*seats;
+
+							document.getElementById("sp").innerHTML = `${fetchedtotalcost}`;
+							form2.style.display="block";
+
+							
+						});
+
+						trainnumber.value=fetchedTrainNumber;
+						tostation.value=fetchedendStation;
+						fromstation.value=fetchedstartStation;
+						total.value=Math.round(fetchedtotalcost);
+						seatsid.value=fetchedSeats;
+
+
+
+
+					}
+
+					
+				} else {
+          alert("Invalid Train Number");
+        }
+		
+
+		
+			} catch (error) {
+        console.error(error);
+			}
+		});
+
+
+		
+	</script>
 </body>
 </html>

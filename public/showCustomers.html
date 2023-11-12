@@ -47,9 +47,9 @@
 		</p>
 	</div>
 	
-	<div class="main">
+	<!-- <div class="main">
 		<p class="menu">Update Trains</p>
-	</div>
+	</div> -->
 	<!-- <form action="adminupdatetrain" class="tab red" method="post">
 		<br /> TrainNumber: <input type="text" name="trainnumber"><br />
 		<br /> <input type="submit" value=" SEARCH TRAIN "><br />
@@ -59,7 +59,7 @@
 	<form id="showC" method="post">
 		<input type="submit" value="Load the details of the passengers ">
 	</form>
-	<table>
+	<table class="viewtb">
 		<thead>
 		  <tr>
 			<th>Mail Id</th>
@@ -103,7 +103,7 @@
 							<td>${row.FNAME}</td>
 							<td>${row.LNAME}</td>
 							<td>${row.ADDR}</td>
-							<td>${row.PHNO}</td>
+							<td>${row.phno}</td>
 							
 						`;
 						trainDataTbody.appendChild(newRow);
