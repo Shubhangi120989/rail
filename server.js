@@ -302,3 +302,26 @@ app.post('/addbooking', async (req, res) => {
     res.status(500).json({ error: 'An error occurred while Booking the seat' });
   }
 })
+
+
+app.post('/viewbooking', async (req, res) => {
+  const {emailId} = req.body;
+console.log(emailId);
+  try {
+    // Use your Sequelize instance 'db' to perform the query.
+    const results = await db.query(
+      'SELECT * FROM HISTORY WHERE MAILID = :emailId',
+      {
+        replacements: { emailId },
+        type: Sequelize.QueryTypes.SELECT,
+      }
+    );
+
+    // Send the results to the client (frontend).
+    res.json(results);
+  } catch (error) {
+    console.error(error);
+    // Handle errors and send an appropriate response to the client.
+    res.status(500).json({ error: 'An error occurred while fetching details.' });
+  }
+});

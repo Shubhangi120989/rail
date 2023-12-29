@@ -4,55 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Booking history</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
-
-        .container {
-            background-color: #fff;
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 14px 20px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <link rel="stylesheet" href="UserHome_Css.css" />
+    
 </head>
 <body>
+  
+    <h1 class="hd">Payment History Lookup</h1>
     <div class="container">
-        <h2>Payment History Lookup</h2>
-        <form action="retrieve_payment_history" method="post">
-            <label for="email">Enter your email:</label>
-            <input type="text" id="email" name="email" required>
-            <input type="submit" value="Get booking history">
-        </form>
+        <!-- <h2>Payment History Lookup</h2> -->
+        <form id="searchForm" class="tab red" method="post">
+            Email: <input type="text" name="emailId" /><br />
+            <br />
+            <input type="submit" value=" View Earlier Bookings " /><br />
+          </form>
+          <table class="viewtb">
+            <thead>
+              <tr>
+                <th>Train No.</th>
+                <th>From Station</th>
+                <th>To Station</th>
+                <th>Seats</th>
+                <th>Amount Paid</th>
+                <!-- <th>Fare</th> -->
+              </tr>
+            </thead>
+            <tbody id="trainData">
+              <!-- Add an id to the tbody -->
+            </tbody>
+          </table>
         
     </div>
+
+    <script>
+		const searchForm = document.getElementById('searchForm');
+		const trainData = document.getElementById('trainData');
+	
+		searchForm.addEventListener('submit', async function (event) {
+		event.preventDefault(); // Prevent the default form submission behavior
+	
+			const emailId = document.querySelector('[name="emailId"]').value;
+	
+			try {
+				const response = await fetch('/viewbooking', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ emailId: emailId }),
+				});
+	
+				if (response.ok) {
+					const data = await response.json();
+	
+					// Clear the existing table rows
+					trainData.innerHTML = '';
+	
+					// Populate the table with the retrieved data
+					data.forEach(row => {
+						const newRow = document.createElement('tr');
+						newRow.innerHTML = `
+							<td>${row.TR_NO}</td>
+							<td>${row.TR_NAME}</td>
+							<td>${row.FROM_STN}</td>
+							<td>${row.TO_STN}</td>
+							<td>${row.SEATS}</td>
+							<td>${row.AMOUNT}</td>
+						`;
+						trainData.appendChild(newRow);
+					});
+				} else {
+          alert("Invalid Email Id");
+        }
+			} catch (error) {
+        console.error(error);
+			}
+		});
+	</script>
 </body>
 </html>

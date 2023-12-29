@@ -1,0 +1,33 @@
+header{
+    background-color:white;
+    text-align: center;
+    color: darkblue;
+    padding: 10px;
+    font-size: xxx-large;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+body{
+    background-image:  url(trainbackground.avif);
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.9;
+}
+nav{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    /* text-decoration: none; */
+}
+.navcontent{
+    margin-left: 40px;
+    text-decoration: none;
+    font-size: larger;
+    color: black;
+}
+.tabgreen{
+    padding: 10px;
+    display: block;
+    justify-content: center;
+    background-color: white;
+    color: darkblue;
+}

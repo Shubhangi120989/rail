@@ -2,19 +2,20 @@
     box-sizing: border-box;
 }
 body{
-    background-image: url(https://images.unsplash.com/photo-1442570468985-f63ed5de9086?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHRyYWlufGVufDB8fDB8fHww);
+    background-image: url(trainbackground.avif);
     background-repeat: no-repeat;
     margin-left: 10%;
     margin-right: 10%;
     background-size: cover;
     
-}
+} 
 .hd{
     text-align: center;
     padding:10px;
-    margin-left: 10%;
-    margin-right: 5%;
-    color:#653e03;
+     margin-left: 0%; 
+     margin-right: 0%; 
+    color : darkblue;
+    background-color: transparent;
     font-weight: bold;
     font-size:40px;
     font-family:'Bebas Neue' , sans-serif;
@@ -24,6 +25,8 @@ body{
 .main{
     border:1px black solid;
     background-color: #ffffcc;
+    display: flex;
+    justify-content: center;
     border-radius: 10px;
     text-align: center;
     margin-left:33%;
@@ -141,4 +144,20 @@ margin-top: 25%;
     background-color: #b58b4b;
     margin-left: auto;
     margin-right: auto;
+}
+
+form{
+    text-align: center;
+}
+form input[type="submit"]{
+    margin: 20px;
+    padding: 5px;
+    font-weight: bold;
+    cursor: pointer;
+  transition:background-color  0.3s ease-in-out;
+  font-size:medium;
+}
+
+form input[type="submit"]:hover {
+    background-color: #b0894f; /* Darker brown color on hover */
 }

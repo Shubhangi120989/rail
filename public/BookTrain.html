@@ -5,7 +5,48 @@
 <title>E-Trains</title>
 <link rel="stylesheet" href="UserHome_Css.css">
 <style>
+    #cost-container {
+        max-width: 400px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color:transparent;
+    }
+
+    #seat-cost {
+        display: block;
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    #cost-container input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+
+    #pay-button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #pay-button:hover {
+        background-color: #45a049;
+    }
 </style>
+
 </head>
 <body>
 	<header>
@@ -53,6 +94,11 @@
 		</div>
 		<div class="home">
 			<p class="menu">
+				<a href="ViewBooking.html">View Booking History</a>
+			</p>
+		</div>
+		<div class="home">
+			<p class="menu">
 				<a href="UserRegister.html">Logout</a>
 			</p>
 		</div>
@@ -77,7 +123,7 @@
 	<form id="bookform" class="tab red" method="post">
 		TrainNumber: <input type="text" name="trainnumber" id="trainN"><br /> <br />
 		No of seats: <input type='number' name='seats' id="num-seats"><br /> <br /> 
-		<!-- <button type="button" id="calculate-cost">Book Now</button> -->
+		
 
 		<input type="submit" value="Book now" id="submit-btn"><br />
 	</form>
@@ -99,36 +145,7 @@
 	<br />
 	</form>
 
-	<!-- <script>
-		const trainNumber = document.getElementById("train-number").value;
-		const numSeats = parseInt(document.getElementById("num-seats").value);
-		
-		document.getElementById("calculate-cost").addEventListener("click", function() {
-		fetch(`/fetch-seat-cost?trainNumber=${trainNumber}`)
-        .then(response => response.json())
-        .then(data => {
-            const seatCost = data.fare;
-
-            // Display the seat cost and show the "Pay" button
-            document.getElementById("seat-cost").textContent = seatCost;
-            document.getElementById("cost-container").style.display = "block";
-        });
-
-		document.getElementById("pay-button").addEventListener("click", function() {
-			const transid=document.getElementById("transid");
-			fetch(`/add-to-payment-history?trainNumber=${trainNumber}&numSeats=${numSeats}&transid=${transid}`)
-        .then(response => response.json())
-        .then(data => {
-            // Handle the response, e.g., show a success message
-            alert("Payment successful!");
-        });
-});
-});
 	
-		
-
-		
-	</script> -->
 	<script>
 		
 		const searchForm = document.getElementById('bookform');
